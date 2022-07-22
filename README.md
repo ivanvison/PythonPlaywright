@@ -44,5 +44,5 @@ Thank you for getting to this point. This repository was created for a project t
 - `import modulename as alias`
     - `alias.function()`
 - `from modulename import function as alias, function as alias` - Alias is optional at this point
-- Package: my_modules
-    - file: __init__.py
+- Package: `my_modules`
+    - file: `__init__.py`
