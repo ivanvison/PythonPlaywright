@@ -46,3 +46,16 @@ Thank you for getting to this point. This repository was created for a project t
 - `from modulename import function as alias, function as alias` - Alias is optional at this point
 - Package: `my_modules`
     - file: `__init__.py`
+
+### Section 7: Playwright Basics
+- Documentation: `https://playwright.dev/python/docs/intro`
+- initial commands:
+    - `pip install pytest-playwright`
+    - `playwright install`
+    - `playwright codegen [web]`
+- Test case is not a test case if there are no assertions
+- AAA - Assess, Act, Assert
+- Given/When/Then
+- Slow_mo!
+- Default timeout: page.set_default_timeout(3000)
+- Per specific element, `page.wait_for_url("https://playwright.dev/docs/intro",timeout=####)`
