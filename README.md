@@ -188,3 +188,4 @@ while login_issue:
 
 ### Section 16: CI/CD Integration
 - Github actions
+- Go to repo > Actions > Python Application > Commit > Brown dot
