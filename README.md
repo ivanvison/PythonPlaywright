@@ -52,6 +52,7 @@ Thank you for getting to this point. This repository was created for a project t
 - Package: `my_modules`
     - file: `__init__.py`
 
+
 ### Section 7: Playwright Basics
 - Documentation: `https://playwright.dev/python/docs/intro`
 - initial commands:
@@ -65,16 +66,19 @@ Thank you for getting to this point. This repository was created for a project t
 - Default timeout: page.set_default_timeout(3000)
 - Per specific element, `page.wait_for_url("https://playwright.dev/docs/intro",timeout=####)`
 
+
 ### Section 8: Playwright Selectors
 - first.click()
 - Multime results`page.locator(":nth-match(:text('Shop'),1)")`
     - Index starts with 1, not 0
 - Chaining selectors `css=article >> css.bar`
 
+
 ### Section 9: Assertions
 - Python way of asserting: assert
 - Playwright way: `expect(page.locator("text=Something")).something()`
 - [Test Assertions](https://playwright.dev/python/docs/test-assertions)
+
 
 ### Section 10: Waits
 - `page.wait_for_selector()`
@@ -89,9 +93,11 @@ while login_issue:
         login_issue = False
 ```
 
+
 ### Section 11: POM and Project Structure
 - [POM](https://playwright.dev/python/docs/pom)
 - Try using fixtures instead of Helpers
+
 
 ### Section 12: Pytest Framework Basics
 - `pip install pytest-playwright`
@@ -137,11 +143,13 @@ while login_issue:
     - You can combine CLI options together: `pytest --ff -x -v`
     - Reporting with pytest-reporter-html1: `pytest --template=html1/index.html --report=report.html`
 
+
 ### Section 13: Reporting and Parallel Execution via CLI
 - `pip install pytest-reporter-html1`
 - `pip install pytest-xdist`
 - `pytest -n auto` or `pytest -n 3`
 - `pytest --maxfail=2 -m regression --template=html1/index.html --report=regression.html -n4`
+
 
 ### Section 14: Pytest - Playwright fictures and CLI commands
 - Fixutes = Context for test
@@ -186,6 +194,7 @@ while login_issue:
         ...
     ```
 
+
 ### Section 16: CI/CD Integration
 - Github actions
 - Go to repo > Actions > Python Application > Commit > Brown dot
@@ -217,3 +226,68 @@ while login_issue:
           run: |
              pytest
         ```
+- Toggle password between local and remote runs -- add this on top of the the conftest.py file and use PASSWORD variable inside tests    ---- NOT NEEDED if using .env file
+```
+try:
+    PASSWORD = os. environ['PASSWORD']
+except KeyError:
+    import utils.secrert_config
+    PASSWORD = utils.secrert_config.PASSWORD
+```
+- Using .env file is way better industry standard. 
+    - install `pip install pytest_dotenv`
+    - Replace try except with `PASSWORD = os. environ['PASSWORD']`
+    - Update yml file
+
+
+### Section 17: Authentication Scenarios
+- Login once and save sessions and - Reuse authenticated state with storage file, sample:
+```python
+@pytest.fixture(scope='session')
+def context_creation(playwright):
+    browser = playwright.chromium.launch(headless=False, slow_mo=300)
+    context = browser.new_context()
+
+    page = context.new_page()
+    page.goto("login link")
+    # ...
+
+    # page.wait_for_load_state('networkidle') or page.wait_for_load_state(timeour=3000)
+    time.sleep(2) # used for example purposes
+    context.storage_state(path='state.json')    
+
+    yield context
+
+@pytest.fixture()
+def login_set_up(context_creation, playwright):
+    browser = playwright.chromium.launch(headless=False, slow_mo=300)
+    # context = context_creation
+    context = browser.new_context(storage_state='state.json')
+    page = context.new_page()
+    page.goto("new link")
+    expect(page.locator("text=Log In")).to_be_visible()
+
+    yield page
+    browser.close()
+```
+- [Session Storage Documentation](https://playwright.dev/python/docs/auth#session-storage)
+
+- Browser authentication 
+    `context = browser.new_context(http_crendentials={'username: "aaa",
+                                                      'password': PASSWORD})`
+
+
+### Section 18: Visual Testing
+- Generating snapshots, capturing mismatches, browserts support
+    - install `pip install pytest-playwright-visual`
+    - usage `page.screenshot()`
+    - snapshots folder is created
+    - flag: `--update snapshots`
+- Masking 
+    - `assert.snapshot(page.screenshot(mask=[homepage.cart_icon, homepage.shop_women]))`
+
+- Lowering comparison stricness
+    - `assert.snapshot(page.screenshot(threshold=1))`
+
+- Full page image and fail_fast
+    - `assert.snapshot(page.screenshot(full_page=True, fail_fast=True))`

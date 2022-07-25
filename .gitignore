@@ -6,4 +6,5 @@ test-results/
 test-results/
 playwright-report/
 /utils/secret_config.py
+*.env
 

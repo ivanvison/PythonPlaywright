@@ -28,6 +28,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest-playwright
         python -m pip install playwright
+        python -m pip install pytest_dotenv
+        python -m pip install pytest-playwright-visual
     - name: Ensure playwright browsers are installed
       run: | 
         python -m playwright install chromium
