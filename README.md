@@ -185,3 +185,6 @@ while login_issue:
     def test_contact_page_form(set_up_contact_page_fill, name, email, message) -> None:
         ...
     ```
+
+### Section 16: CI/CD Integration
+- Github actions
