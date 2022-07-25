@@ -6,7 +6,15 @@ def set_up(page):
     page.goto("https://playwright.dev/")
 
     yield page
+    page.close()
 
+
+@pytest.fixture
+def docs_set_up(set_up):
+
+    page = set_up
+
+    yield page
 
 
 # def set_up(playwright: Playwright):
@@ -19,3 +27,16 @@ def set_up(page):
 #     page.goto("https://playwright.dev/")
 # 
 #     yield page
+
+@pytest.fixture
+def set_up_contact_page(page):
+    page.goto("https://www.jotform.com/form-templates/preview/31362999175971/classic&nofs")
+
+    yield page
+    page.close()
+
+@pytest.fixture
+def set_up_contact_page_fill(set_up_contact_page):
+
+    page = set_up_contact_page
+    yield page

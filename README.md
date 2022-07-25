@@ -160,3 +160,28 @@ while login_issue:
     - --screenshot Whether to automatically capture a screenshot after each test. on, off, or only-on-failure (default: off).
     - --base-url Specify a base url
     - --output=nameofthefolder
+
+- [Scopes](https://playwright.dev/python/docs/test-runners)
+- Example, for login use:
+    ```python
+    @pytest.fixture(scope="session")
+    def set_up(browser):
+        context = browser.new_content()
+        page = context.new_page()
+        page.goto("link")
+        ...
+        yield page
+        page.close()
+    ```
+
+
+### Section 15: Data Driven Testing
+- marker: `@pytest.mark.parametrize`
+- Sample: 
+    ```python
+    @pytest.mark.parametrize("name, email, message",[("Test Name 1", "test1@testingcorp.com","This is test sample 1"),
+                                                    ("Test Name 2", "test2@testingcorp.com", "This is test sample 2"),
+                                                    pytest.param("Test Name 3", "test3@testingcorp.com", "This is test sample 3", marks=pytest.mark.xfail)] )
+    def test_contact_page_form(set_up_contact_page_fill, name, email, message) -> None:
+        ...
+    ```

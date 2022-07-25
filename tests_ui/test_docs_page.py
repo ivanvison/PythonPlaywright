@@ -1,11 +1,11 @@
 from pom.home_page_elements import HomePage
 from pom.docs_elements import Docs as DocsPage
-from playwright.sync_api import Page, Playwright, sync_playwright, expect
+from playwright.sync_api import expect
 import re
 
 
-def test_docs_page(set_up) -> None:
-    page = set_up
+def test_docs_page(docs_set_up) -> None:
+    page = docs_set_up
 
     home_page = HomePage(page)
     docs_page = DocsPage(page)

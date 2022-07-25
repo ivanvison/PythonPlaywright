@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, Playwright, sync_playwright, expect
+from playwright.sync_api import expect
 from pom.home_page_elements import HomePage
 
 
