@@ -1,4 +1,7 @@
 __pycache__/
+pom/__pycache__/
+test_ui/__pycache__/
+test-results/
 .pytest_cache/
 test-results/
 playwright-report/
