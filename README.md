@@ -189,3 +189,31 @@ while login_issue:
 ### Section 16: CI/CD Integration
 - Github actions
 - Go to repo > Actions > Python Application > Commit > Brown dot
+- Add proper configurations to the yml file
+- [Documentation](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on)
+```
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest-playwright
+        python -m pip install playwright
+    - name: Ensure playwright browsers are installed
+      run: | 
+        python -m playwright install
+
+        ...
+```
+- GitHub Secrets - used to store sensitive information
+- utils/secret_config.py > add this file to .gitignore
+- Repo > Settings > Secrets > Add secret
+- usage:
+    - local: `utils.secrert_config.PASSWORD`    (import utils.secrert_config)
+    - GitHub: `os.environ['PASSWORD']`          (import os)
+        - Let the YML file know adding:
+        ```
+        - name: Test with pytest
+          env:
+             PASWORD: ${{secrets.PASSWORD}}
+          run: |
+             pytest
+        ```
